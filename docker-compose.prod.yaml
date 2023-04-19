@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  programa_verduleria:
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: backend_programa_verduleria
+    container_name: backend_programa_verduleria
+    restart: always # reiniciar el contenedor si se detiene
+    ports:
+      - "${PORT}:${PORT}"
+    # working_dir: /var/www/pokedex
+    environment:
+      DATABASE_MONGO_URI: ${DATABASE_MONGO_URI}
+      PORT: ${PORT}
+      SECRET_KEY: ${SECRET_KEY}    # volumes:
+    #   - ./:/var/www/pokedex
+
+  db:
+    image: mongo:5
+    container_name: db_programa_verduleria
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: db_programa_verduleria
+    volumes:
+      - ./mongo:/data/db
